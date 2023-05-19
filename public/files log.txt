@@ -1,0 +1,6 @@
+These files should be reviewed upon completion when you switch to tailwind fully.
+css
+fonts
+img
+jss
+less

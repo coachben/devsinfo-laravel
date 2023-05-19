@@ -15,6 +15,9 @@ Features List
 - Upload your profile
 - Post a job/ opportunity
 
+
+![Alt text](/public/img//screenshot.GIF) 
+
 ## Want to add your Community?
 
     - Pull request to edit communities.json i.e. add a new meetup, update info for a certain meetup
@@ -22,6 +25,9 @@ Features List
 ## Want to add your Developer profile or a Software firm?
 
     - Create an account and GET Knowticed!
+    
+    ![Alt text](/public/img/screenshot2.GIF)
+
 
 ## Minimum Server Requirements
 
