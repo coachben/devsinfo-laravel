@@ -25,8 +25,6 @@ Features List
 ## Want to add your Developer profile or a Software firm?
 
     - Create an account and GET Knowticed!
-    
-    ![Alt text](/public/img/screenshot2.GIF)
 
 
 ## Minimum Server Requirements
