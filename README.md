@@ -1,9 +1,6 @@
 
-<<<<<<< HEAD
 ##  DEVS INFO KE - A software developers directory for dev companies. 
 
-A Kenyan software developers directory developed in laravel.
-=======
 ##  DEVS INFO KE - A software developers directory for dev companies. (OPEN SOURCE)
 
 A Kenyan software developers directory developed in laravel. 
@@ -13,7 +10,7 @@ Join as a dev, list a dev community or a software consulting company
 Features List
 
 - [Join the community as a dev or as a company].
-<<<<<<< HEAD
+
 =======
 - Frontend UI - Initial Setup - done
 - Backend UI- Initial Setup - done
@@ -35,7 +32,6 @@ Features List
 
 ![Alt text](/public/img//screenshot.GIF) 
 
-<<<<<<< HEAD
 =======
 ![developer communities hub](/public/img//backend-screenshot.GIF) 
 
