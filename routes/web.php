@@ -47,8 +47,8 @@ Route::middleware('auth')->group(function () {
 
         });
 
-        //proposed new backend
-        Route::view('/admin','admin.index')->name('admin.home');
+        //proposed old backend
+        Route::view('/oldadmin','admin.index')->name('admin.home');
 
 });
 
