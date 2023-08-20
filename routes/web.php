@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,9 +59,9 @@ require __DIR__.'/auth.php';
 //     return view('dev');
 // });
 
-// Route::get('/company',function(){
-//     return view('company');
-// });
+
+Route::get('/company', [CompanyController::class,'index'])->name('company')->middleware('auth');
+
 
 Route::get('/jobs',function(){
     return view('jobs');
