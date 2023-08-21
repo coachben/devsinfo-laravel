@@ -19,8 +19,11 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->unique();
             $table->text('profile')->nullable();
-            $table->tinyText('awards')->nullable();
-            $table->string('roles');
+            $table->tinyText('award')->nullable();
+            $table->string('interest');
+            $table->string('social');
+            $table->boolean('status')->default(true);
+            $table->string('role')->default('developer'); //super_admin and company too
             $table->rememberToken();
             $table->timestamps();
         });

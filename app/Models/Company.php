@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -16,7 +18,15 @@ class Company extends Model
         'email',
         'website',
         'address',
-        'status'
     ];
 
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function developers(): HasMany
+    {
+        return $this->hasMany(Developer::class);
+    }
 }

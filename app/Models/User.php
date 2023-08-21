@@ -3,12 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Panel;
+use App\Models\Company;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,6 +25,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'profile',
+        'award',
+        'interest',
+        'social',    //This could be github, linkedin or fb
     ];
 
     /**
@@ -42,4 +51,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function Companies(): HasMany
+    {
+        return $this->hasMany(Company::class);
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // return str_ends_with($this->email, '@devsinfo.com') && $this->hasVerifiedEmail();
+        return true;
+    }
+
+    
+
 }
