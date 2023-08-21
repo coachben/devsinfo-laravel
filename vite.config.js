@@ -11,6 +11,7 @@ export default defineConfig({
             refresh: [
                 ...refreshPaths,
                 'app/Livewire/**',
+                'app/Tables/Columns/**',
             ],
             // refresh: true,
         }),

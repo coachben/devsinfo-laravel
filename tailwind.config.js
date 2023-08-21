@@ -24,9 +24,13 @@ export default {
                     'secondary':'#dc3545',
                     'secondary-light':'#dc3545',
                     'accent':'#f1f5f9',
+
             }
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        typography
+    ],
 };

@@ -10,6 +10,8 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Checkbox;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
@@ -26,34 +28,53 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('User Credentials')
-                    ->description('The items you have selected for purchase')
+                Section::make('Manage Users')
+                    ->description('Manage User accounts & credentials')
                     ->schema([
                         // ...
                         TextInput::make('name')
                             ->minLength(2)
-                            ->maxLength(255),
-                        TextInput::make('name')
-                            ->minLength(2)
-                            ->maxLength(255),
+                            ->maxLength(255)->reactive(),
                         TextInput::make('phone')
                             ->tel()
                             ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                        TextInput::make('email')->email(),
+                        TextInput::make('email')->email()->reactive(),
                         TextInput::make('password')
                             ->password()
                             ->autocomplete(false),
                         TextInput::make('password')->confirmed(),
+                        TextInput::make('profile')
+                            ->minLength(2)
+                            ->maxLength(255),
+                        TextInput::make('awards')
+                            ->minLength(2)
+                            ->maxLength(255),
                         Select::make('role')
                             ->options([
                                 'developer' => 'Developer',
                                 'super_admin' => 'Super Admin',
                                 'company' => 'company',
-                            ])
+                            ])->reactive()
                             ->required(),
+                        Checkbox::make('status'),
                     ])
                     ->collapsible()
                     ->columns(4),
+
+                Section::make('Areas of Interest')
+                    ->description('Technologies of interest')
+                    ->schema([
+                        // ...
+                        Select::make('interests')
+                            ->multiple()
+                            ->options([
+                                'tailwind' => 'Tailwind CSS',
+                                'rust' => 'Rust',
+                                'laravel' => 'Laravel',
+                                'Reactjs' => 'React JS',
+                            ])->columns(3),
+                    ])
+
 
             ]);
     }
@@ -63,6 +84,19 @@ class UserResource extends Resource
         return $table
             ->columns([
                 //
+                TextColumn::make('name'),
+                TextColumn::make('email'),
+                TextColumn::make('phone'),
+                TextColumn::make('interest'),
+                TextColumn::make('award'),
+                TextColumn::make('created_at'),
+                TextColumn::make('profile'),
+                TextColumn::make('role'),
+                TextColumn::make('status'),
+
+
+
+
             ])
             ->filters([
                 //
