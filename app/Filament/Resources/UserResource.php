@@ -8,11 +8,14 @@ use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -22,7 +25,9 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -34,28 +39,52 @@ class UserResource extends Resource
                         // ...
                         TextInput::make('name')
                             ->minLength(2)
+                            ->nullable(false)
+                            ->doesntStartWith(['admin'])
                             ->maxLength(255)->reactive(),
                         TextInput::make('phone')
                             ->tel()
                             ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
-                        TextInput::make('email')->email()->reactive(),
+                        TextInput::make('email')
+                            ->email()
+                            ->nullable(false)
+                            ->reactive(),
                         TextInput::make('password')
+                            ->confirmed()
                             ->password()
+                            //we dont want to update the field when its empty. and need it hashed
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->dehydrated(fn ($state) => filled($state))
+                            // However, you want to require the password to be filled on the Create page of an admin panel resource:
+                            ->required(fn (string $context): bool => $context === 'create')
                             ->autocomplete(false),
-                        TextInput::make('password')->confirmed(),
+                        TextInput::make('password_confirmation'),
                         TextInput::make('profile')
                             ->minLength(2)
                             ->maxLength(255),
                         TextInput::make('awards')
                             ->minLength(2)
                             ->maxLength(255),
-                        Select::make('role')
-                            ->options([
-                                'developer' => 'Developer',
-                                'super_admin' => 'Super Admin',
-                                'company' => 'company',
-                            ])->reactive()
-                            ->required(),
+                        Select::make('roles')
+                            // ->relationship('roles', 'name')
+                            //performs faster than using relationships
+                            ->options(Role::pluck('name', 'id'))
+                            ->multiple()
+                            ->searchDebounce(400),
+                        // ->preload(),
+                        // Select::make('role')
+                        //     ->options([
+                        //         'developer' => 'Developer',
+                        //         'super admin' => 'Super Admin',
+                        //         'company' => 'Company',
+                        //     ])->reactive()
+                        //     ->required(),
+                        // Select::make('permissions')
+                        //     // ->relationship('permissions', 'name')
+                        //     //performs faster than using relationships
+                        //     ->options(Permission::pluck('name', 'id'))
+                        //     ->multiple()
+                        //     ->preload(),
                         Checkbox::make('status'),
                     ])
                     ->collapsible()

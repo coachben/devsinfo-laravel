@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone')->unique();
+            $table->string('phone')->nullable();
             $table->text('profile')->nullable();
             $table->tinyText('award')->nullable();
-            $table->string('interest');
-            $table->string('social');
+            $table->string('interest')->nullable();;
+            $table->string('social')->nullable();;
             $table->boolean('status')->default(true);
-            $table->string('role')->default('developer'); //super_admin and company too
+            // $table->string('role'); //super admin,developer and company too
             $table->rememberToken();
             $table->timestamps();
         });

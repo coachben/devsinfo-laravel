@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
@@ -13,17 +15,32 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        //Create some roles.
+
+        Role::create(['name'=>'super admin']);
+        Role::create(['name'=>'developer']);
+        Role::create(['name'=>'company']);
+
         //Some sample users you can try
-        \App\Models\User::factory()->create([
+        $user1 = User::factory()->create([
             'name' => 'Gringos',
-            'email' => 'wes@lara.com',
+            'email' => 'super@lara.com',
             'password' => '12345'
         ]);
-        \App\Models\User::factory()->create([
+        $user1->assignRole('super admin');
+
+        $user2 = User::factory()->create([
             'name' => Str::random(7),
-            'email' => Str::random(7).'@lara.com',
+            'email' => 'dev@lara.com',
             'password' => '12345'
         ]); 
-    
+        $user2->assignRole('developer');
+
+        $user3 = User::factory()->create([
+            'name' => Str::random(7),
+            'email' => 'ben@lara.com',
+            'password' => '12345'
+        ]); 
+        $user3->assignRole('company');
     }
 }
