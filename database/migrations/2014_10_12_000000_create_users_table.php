@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('interest')->nullable();;
             $table->string('social')->nullable();;
             $table->boolean('status')->default(true);
-            // $table->string('role'); //super admin,developer and company too
+            $table->string('role')->nullable(); //super admin,developer and company too
             $table->rememberToken();
             $table->timestamps();
         });

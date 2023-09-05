@@ -19,6 +19,8 @@ use App\Filament\Resources\PermissionResource\RelationManagers;
 
 class PermissionResource extends Resource
 {
+    //Permission class uses the Permission model which extends the Permission class in spatie package
+    //Spatie provies us with nice table creation capability for roles and permissions already which we already published and migrated
     protected static ?string $model = Permission::class;
 
     protected static ?string $navigationGroup = 'Settings';
@@ -49,7 +51,7 @@ class PermissionResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->emptyStateActions([

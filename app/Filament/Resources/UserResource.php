@@ -58,20 +58,19 @@ class UserResource extends Resource
                             // However, you want to require the password to be filled on the Create page of an admin panel resource:
                             ->required(fn (string $context): bool => $context === 'create')
                             ->autocomplete(false),
-                        TextInput::make('password_confirmation'),
+                        TextInput::make('password_confirmation')
+                            ->password(),
                         TextInput::make('profile')
                             ->minLength(2)
                             ->maxLength(255),
                         TextInput::make('awards')
                             ->minLength(2)
                             ->maxLength(255),
-                        Select::make('roles')
-                            // ->relationship('roles', 'name')
-                            //performs faster than using relationships
-                            ->options(Role::pluck('name', 'id'))
+                        Select::make('role')
+                            ->relationship('roles', 'name')
                             ->multiple()
-                            ->searchDebounce(400),
-                        // ->preload(),
+                            ->searchDebounce(400)
+                            ->preload(),
                         // Select::make('role')
                         //     ->options([
                         //         'developer' => 'Developer',
@@ -79,12 +78,12 @@ class UserResource extends Resource
                         //         'company' => 'Company',
                         //     ])->reactive()
                         //     ->required(),
-                        // Select::make('permissions')
-                        //     // ->relationship('permissions', 'name')
-                        //     //performs faster than using relationships
-                        //     ->options(Permission::pluck('name', 'id'))
-                        //     ->multiple()
-                        //     ->preload(),
+                        Select::make('permissions')
+                            ->relationship('permissions', 'name')
+                            //performs faster than using relationships
+                            ->options(Permission::pluck('name', 'id'))
+                            ->multiple()
+                            ->preload(),
                         Checkbox::make('status'),
                     ])
                     ->collapsible()
@@ -113,25 +112,31 @@ class UserResource extends Resource
         return $table
             ->columns([
                 //
-                TextColumn::make('name'),
-                TextColumn::make('email'),
-                TextColumn::make('phone'),
-                TextColumn::make('interest'),
-                TextColumn::make('award'),
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->searchable(),
+                TextColumn::make('phone')
+                    ->searchable(),
+                // TextColumn::make('interest'),
+                // TextColumn::make('award'),
                 TextColumn::make('created_at'),
                 TextColumn::make('profile'),
                 TextColumn::make('role'),
                 TextColumn::make('status'),
-
-
-
-
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('role')
+                ->options([
+                    'cat' => 'Cat',
+                    'dog' => 'Dog',
+                    'rabbit' => 'Rabbit',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

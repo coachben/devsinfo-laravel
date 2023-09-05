@@ -14,10 +14,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 // class User extends Authenticatable
+// class User extends Authenticatable
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,10 +30,10 @@ class User extends Authenticatable implements FilamentUser
         'phone',
         'profile',
         'award',
+        'role',
         'interest',
         'social',    //This could be github, linkedin or fb
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,6 +41,7 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $hidden = [
         'password',
+        'password_confirmation',
         'remember_token',
     ];
 
@@ -62,13 +63,9 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         // return str_ends_with($this->email, '@devsinfo.com') && $this->hasVerifiedEmail();
-        if ($this->hasRole(['super admin'])){
+        if ($this->hasRole(['super admin','company','developer'])){
             return true;
         }
         return false;
     }
-
-
-    
-
 }

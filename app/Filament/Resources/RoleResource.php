@@ -3,12 +3,13 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Role;
+use App\Models\User;
 use Filament\Tables;
 use Filament\Forms\Form;
+// use Spatie\Permission\Models\Role;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Spatie\Permission\Models\Role;
-// use App\Models\Role;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -31,10 +32,17 @@ class RoleResource extends Resource
             ->schema([
                 TextInput::make('name')
                 ->minLength(2)
-                ->maxLength(10)
+                ->maxLength(20)
                 // ->unique()
                 //ignores the current record in db if its the same one before save when editing.
                 ->unique(ignoreRecord:true),
+                TextInput::make('created date')
+                ->minLength(2)
+                ->maxLength(20)
+                // ->unique()
+                //ignores the current record in db if its the same one before save when editing.
+                ->unique(ignoreRecord:true),
+
 
                 Select::make('permissions')
                 ->relationship('permissions','name')
@@ -81,4 +89,9 @@ class RoleResource extends Resource
             'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
     }    
+
+    // public static function getEloquentQuery(): Builder
+    //  {
+    //      return parent::getEloquentQuery()->WhereBelongsTo(auth()->user());
+    //  }
 }
