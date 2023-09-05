@@ -16,4 +16,5 @@ class ManagePermissions extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
 }
